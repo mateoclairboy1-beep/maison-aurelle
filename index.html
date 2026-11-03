@@ -1,0 +1,642 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Maison Aurelle, maison de parfum à Grasse. Maquette de démonstration.">
+<title>Maison Aurelle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=Jost:wght@300;400;500&display=swap">
+<style>
+/* Layout : maison de parfum nocturne. Bandes pleine largeur, contenu centré à 1180px, flacons dessinés en SVG. Look unique noir et or. */
+:root {
+  --ink: #0b0a08;
+  --ink-2: #14120e;
+  --ink-3: #1d1a14;
+  --gold: #c9a35b;
+  --gold-soft: #e6cf9c;
+  --ivory: #f1ebde;
+  --muted: #9a9180;
+  --line: rgba(201, 163, 91, 0.22);
+  --display: "Bodoni Moda", "Didot", "Bodoni 72", Georgia, serif;
+  --body: "Jost", "Futura", "Century Gothic", system-ui, sans-serif;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0;
+ 
+  background: var(--ink);
+  color: var(--ivory);
+  font-family: var(--body);
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+body::before {
+  content: ""; position: fixed; inset: 0 0 auto;
+  height: env(safe-area-inset-top, 0px); z-index: 60; background: var(--ink);
+}
+a { color: inherit; }
+button { font: inherit; color: inherit; cursor: pointer; }
+:focus-visible { outline: 1px solid var(--gold); outline-offset: 3px; }
+
+.wrap {
+  max-width: 1180px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.eyebrow {
+  font-size: 0.72rem; letter-spacing: 0.32em; text-transform: uppercase;
+  color: var(--gold); font-weight: 400;
+}
+h1, h2, h3 { font-family: var(--display); font-weight: 400; text-wrap: balance; margin: 0; }
+h2 { font-size: clamp(2rem, 4.2vw, 3.2rem); line-height: 1.1; }
+p { margin: 0; }
+
+.btn {
+  display: inline-flex; align-items: center; gap: 0.6em;
+  padding: 0.95em 1.9em; border: 1px solid var(--gold);
+  background: var(--gold); color: var(--ink);
+  font-size: 0.78rem; letter-spacing: 0.22em; text-transform: uppercase; font-weight: 500;
+  text-decoration: none; transition: background .3s, color .3s;
+}
+.btn:hover { background: transparent; color: var(--gold); }
+.btn.ghost { background: transparent; color: var(--gold); }
+.btn.ghost:hover { background: var(--gold); color: var(--ink); }
+
+/* Annonce + nav */
+.announce {
+  background: var(--gold); color: var(--ink); text-align: center;
+  font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; font-weight: 500;
+}
+.announce .wrap { padding-block: 0.55rem; }
+header.nav {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 50;
+  background: rgba(11, 10, 8, 0.88); backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+.nav .wrap {
+  display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
+  padding-block: 1.1rem; gap: 1rem;
+}
+.nav ul { display: flex; gap: 2rem; list-style: none; margin: 0; padding: 0; }
+.nav ul a {
+  text-decoration: none; font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--muted); transition: color .2s;
+}
+.nav ul a:hover { color: var(--gold-soft); }
+.logo {
+  font-family: var(--display); font-size: 1.5rem; letter-spacing: 0.28em; text-decoration: none;
+  text-transform: uppercase; color: var(--gold-soft); white-space: nowrap;
+}
+.logo small { display: block; font-family: var(--body); font-size: 0.55rem; letter-spacing: 0.5em; color: var(--muted); text-align: center; margin-top: -2px; }
+.nav-right { display: flex; justify-content: flex-end; }
+.cart-btn {
+  display: inline-flex; align-items: center; gap: 0.6rem; background: none; border: 0;
+  font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ivory);
+}
+.cart-count {
+  display: inline-grid; place-items: center; min-width: 1.6rem; height: 1.6rem; padding: 0 .3rem;
+  border: 1px solid var(--gold); border-radius: 999px; color: var(--gold); font-size: 0.72rem;
+  letter-spacing: 0; transition: transform .3s;
+}
+.cart-count.bump { transform: scale(1.3); background: var(--gold); color: var(--ink); }
+
+/* Hero */
+.hero { position: relative; overflow: hidden; border-bottom: 1px solid var(--line); }
+.hero::before {
+  content: ""; position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 50% 60% at 72% 55%, rgba(201,163,91,0.20), transparent 70%),
+    radial-gradient(ellipse 40% 40% at 10% 10%, rgba(201,163,91,0.06), transparent 70%);
+  pointer-events: none;
+}
+.hero .wrap {
+  position: relative; display: grid; grid-template-columns: 1.1fr 0.9fr; align-items: center;
+  gap: 2rem; padding-block: clamp(3rem, 8vw, 6.5rem);
+}
+.hero-copy { display: grid; gap: 1.6rem; min-width: 0; }
+.hero h1 { font-size: clamp(2.8rem, 7.4vw, 6rem); line-height: 0.98; letter-spacing: -0.01em; }
+.hero h1 em { color: var(--gold); font-style: italic; }
+.hero p.lead { color: var(--muted); max-width: 30rem; font-size: 1.05rem; }
+.hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; }
+.hero-meta {
+  display: flex; gap: 2.2rem; flex-wrap: wrap; padding-top: 1.4rem; border-top: 1px solid var(--line);
+  max-width: 30rem;
+}
+.hero-meta div { display: grid; }
+.hero-meta strong { font-family: var(--display); font-weight: 400; font-size: 1.6rem; color: var(--gold-soft); }
+.hero-meta span { font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
+.hero-visual { position: relative; display: grid; place-items: center; min-height: 420px; }
+.hero-visual svg { width: min(340px, 80%); height: auto; filter: drop-shadow(0 40px 60px rgba(0,0,0,.6)); animation: float 7s ease-in-out infinite; }
+.hero-visual .ring {
+  position: absolute; width: min(420px, 95%); aspect-ratio: 1; max-width: 100%;
+  border: 1px solid var(--line); border-radius: 50%;
+}
+.hero-visual .ring.r2 { width: min(320px, 72%); border-style: dashed; animation: spin 60s linear infinite; }
+.hero-tag {
+  position: absolute; right: 4%; bottom: 12%; background: var(--ink-2); border: 1px solid var(--line);
+  padding: 0.8rem 1rem; display: grid; gap: 0.1rem;
+}
+.hero-tag b { font-family: var(--display); font-weight: 400; font-size: 1.1rem; }
+.hero-tag span { font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
+@keyframes float { 50% { transform: translateY(-14px); } }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Collection */
+section { padding-block: clamp(4rem, 9vw, 7rem); }
+.section-head {
+  display: flex; justify-content: space-between; align-items: end; gap: 2rem; flex-wrap: wrap;
+  margin-bottom: 3rem;
+}
+.section-head > div { display: grid; gap: 1rem; max-width: 36rem; }
+.section-head p { color: var(--muted); }
+.filters { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.filters button {
+  background: none; border: 1px solid var(--line); padding: 0.55em 1.1em;
+  font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted);
+  transition: border-color .2s, color .2s;
+}
+.filters button[aria-pressed="true"], .filters button:hover { border-color: var(--gold); color: var(--gold); }
+
+.grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.25rem; }
+.card {
+  display: grid; grid-template-rows: auto 1fr; background: var(--ink-2);
+  border: 1px solid transparent; transition: border-color .3s, transform .3s;
+}
+.card:hover { border-color: var(--line); transform: translateY(-4px); }
+.card-img {
+  position: relative; aspect-ratio: 4 / 5; max-width: 100%; display: grid; place-items: center;
+  background: radial-gradient(circle at 50% 60%, var(--glow, rgba(201,163,91,.18)), transparent 62%), var(--ink-3);
+  overflow: hidden;
+}
+.card-img svg { width: 46%; height: auto; transition: transform .5s; }
+.card:hover .card-img svg { transform: scale(1.06) rotate(-2deg); }
+.badge {
+  position: absolute; top: 0.9rem; left: 0.9rem; font-size: 0.62rem; letter-spacing: 0.2em;
+  text-transform: uppercase; padding: 0.3em 0.7em; border: 1px solid var(--gold); color: var(--gold);
+}
+.card-body { display: grid; gap: 0.7rem; padding: 1.3rem 1.3rem 1.4rem; align-content: start; }
+.card-body h3 { font-size: 1.45rem; }
+.card-body .family { font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); }
+.notes { font-size: 0.88rem; color: var(--muted); }
+.card-foot {
+  display: flex; justify-content: space-between; align-items: center; gap: 0.5rem;
+  margin-top: 0.4rem; padding-top: 0.9rem; border-top: 1px solid var(--line);
+}
+.price { font-family: var(--display); font-size: 1.2rem; color: var(--gold-soft); font-variant-numeric: tabular-nums; }
+.price small { font-family: var(--body); font-size: 0.7rem; color: var(--muted); letter-spacing: 0.1em; }
+.add {
+  background: none; border: 1px solid var(--gold); color: var(--gold); padding: 0.5em 0.9em;
+  font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase; transition: background .2s, color .2s;
+}
+.add:hover { background: var(--gold); color: var(--ink); }
+.add.done { background: var(--gold); color: var(--ink); }
+
+/* Fiche produit */
+.feature { background: var(--ink-2); border-block: 1px solid var(--line); }
+.feature .wrap { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 6vw, 5rem); align-items: center; }
+.feature-visual {
+  aspect-ratio: 1; max-width: 100%; display: grid; place-items: center; position: relative;
+  background: radial-gradient(circle at 50% 55%, rgba(201,163,91,.22), transparent 60%), var(--ink-3);
+}
+.feature-visual svg { width: 42%; height: auto; }
+.feature-visual .stamp {
+  position: absolute; top: 1.2rem; right: 1.2rem; width: 92px; aspect-ratio: 1; border-radius: 50%;
+  border: 1px solid var(--gold); display: grid; place-items: center; text-align: center;
+  font-size: 0.58rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); line-height: 1.4;
+}
+.feature-copy { display: grid; gap: 1.5rem; min-width: 0; }
+.feature-copy > p { color: var(--muted); max-width: 32rem; }
+.pyramid { display: grid; gap: 0; border-top: 1px solid var(--line); }
+.pyramid div {
+  display: grid; grid-template-columns: 7.5rem 1fr; gap: 1rem; padding-block: 0.85rem;
+  border-bottom: 1px solid var(--line); align-items: baseline;
+}
+.pyramid dt { font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); }
+.pyramid dd { margin: 0; font-family: var(--display); font-size: 1.1rem; }
+.pyramid dd span { display: block; font-family: var(--body); font-size: 0.78rem; color: var(--muted); }
+.sizes { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+.sizes label { position: relative; }
+.sizes input { position: absolute; opacity: 0; }
+.sizes span {
+  display: grid; gap: 0.1rem; padding: 0.7em 1.2em; border: 1px solid var(--line); cursor: pointer;
+  text-align: center; transition: border-color .2s;
+}
+.sizes span b { font-weight: 400; font-size: 0.95rem; }
+.sizes span i { font-style: normal; font-size: 0.72rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.sizes input:checked + span { border-color: var(--gold); background: rgba(201,163,91,.08); }
+.sizes input:focus-visible + span { outline: 1px solid var(--gold); outline-offset: 3px; }
+.buy-row { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+.buy-row .total { font-family: var(--display); font-size: 2rem; color: var(--gold-soft); font-variant-numeric: tabular-nums; }
+.perks { display: flex; gap: 1.5rem; flex-wrap: wrap; font-size: 0.78rem; color: var(--muted); }
+.perks span::before { content: "✦ "; color: var(--gold); }
+
+/* Savoir-faire */
+.craft-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; border-top: 1px solid var(--line); }
+.craft-grid article { padding: 2.2rem 2rem 2.2rem 0; display: grid; gap: 0.8rem; align-content: start; }
+.craft-grid article + article { padding-left: 2rem; border-left: 1px solid var(--line); }
+.craft-grid .num { font-family: var(--display); font-size: 3rem; line-height: 1; color: var(--gold); font-style: italic; }
+.craft-grid h3 { font-size: 1.4rem; }
+.craft-grid p { color: var(--muted); font-size: 0.95rem; }
+
+/* Citation */
+.quote { text-align: center; border-top: 1px solid var(--line); }
+.quote blockquote {
+  margin: 0 auto; max-width: 52rem; font-family: var(--display); font-style: italic;
+  font-size: clamp(1.6rem, 3.6vw, 2.6rem); line-height: 1.3; text-wrap: balance;
+}
+.quote cite { display: block; margin-top: 1.6rem; font-style: normal; }
+
+/* Newsletter */
+.news { background: var(--gold); color: var(--ink); }
+.news .wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: center; }
+.news h2 { font-size: clamp(1.8rem, 3.4vw, 2.6rem); }
+.news p { margin-top: 0.7rem; opacity: 0.75; }
+.news form { display: flex; border-bottom: 1px solid var(--ink); min-width: 0; }
+.news input {
+  flex: 1; min-width: 0; background: none; border: 0; padding: 1rem 0; font: inherit; color: var(--ink); font-size: 1rem;
+}
+.news input::placeholder { color: rgba(11,10,8,.55); }
+.news input:focus { outline: none; }
+.news button { background: none; border: 0; font-size: 0.75rem; letter-spacing: 0.22em; text-transform: uppercase; font-weight: 500; color: var(--ink); }
+.news .msg { grid-column: 2; font-size: 0.85rem; min-height: 1.3em; }
+
+/* Footer */
+footer { padding-block: 4rem 2rem; }
+.foot-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 2rem; }
+.foot-grid h4 { margin: 0 0 1rem; font-weight: 400; font-size: 0.7rem; letter-spacing: 0.24em; text-transform: uppercase; color: var(--gold); }
+.foot-grid ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5rem; }
+.foot-grid a { text-decoration: none; color: var(--muted); font-size: 0.9rem; }
+.foot-grid a:hover { color: var(--ivory); }
+.foot-grid .about { color: var(--muted); font-size: 0.9rem; max-width: 22rem; margin-top: 1rem; }
+.foot-bottom {
+  margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--line);
+  display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; font-size: 0.75rem; color: var(--muted);
+}
+
+/* Panier */
+.drawer-bg { position: fixed; inset: 0; background: rgba(0,0,0,.6); z-index: 80; }
+.drawer {
+  position: fixed; top: 0; right: 0; bottom: 0; width: min(400px, 100%); z-index: 90;
+  background: var(--ink-2); border-left: 1px solid var(--line); display: grid; grid-template-rows: auto 1fr auto;
+  padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
+}
+.drawer header, .drawer .drawer-foot { padding: 1.4rem 1.5rem; }
+.drawer header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--line); }
+.drawer header h3 { font-size: 1.4rem; }
+.close { background: none; border: 0; font-size: 1.5rem; line-height: 1; color: var(--muted); }
+.drawer-items { overflow-y: auto; padding: 0.5rem 1.5rem; }
+.line-item { display: grid; grid-template-columns: 1fr auto; gap: 0.2rem 1rem; padding-block: 1rem; border-bottom: 1px solid var(--line); }
+.line-item b { font-family: var(--display); font-weight: 400; font-size: 1.1rem; }
+.line-item span { font-size: 0.78rem; color: var(--muted); }
+.line-item .lp { color: var(--gold-soft); font-variant-numeric: tabular-nums; text-align: right; }
+.line-item button { background: none; border: 0; padding: 0; font-size: 0.72rem; color: var(--muted); text-decoration: underline; justify-self: end; }
+.empty { color: var(--muted); padding-block: 2rem; text-align: center; }
+.drawer-foot { border-top: 1px solid var(--line); display: grid; gap: 1rem; }
+.drawer-foot .sum { display: flex; justify-content: space-between; font-family: var(--display); font-size: 1.3rem; }
+.drawer-foot .note { font-size: 0.75rem; color: var(--muted); text-align: center; }
+.drawer-foot .btn { justify-content: center; }
+
+.toast {
+  position: fixed; left: 50%; bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%);
+  background: var(--ivory); color: var(--ink); padding: 0.8rem 1.4rem; font-size: 0.85rem; z-index: 100;
+  max-width: calc(100% - 32px);
+}
+
+@media (max-width: 960px) {
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .nav ul { display: none; }
+  .nav .wrap { grid-template-columns: auto 1fr; }
+  .logo { order: -1; }
+  .foot-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 760px) {
+  .hero .wrap, .feature .wrap, .news .wrap { grid-template-columns: 1fr; }
+  .hero-visual { min-height: 320px; order: -1; }
+  .news .msg { grid-column: 1; }
+  .craft-grid { grid-template-columns: 1fr; }
+  .craft-grid article, .craft-grid article + article { padding: 1.8rem 0; border-left: 0; border-bottom: 1px solid var(--line); }
+}
+@media (max-width: 460px) {
+  .grid { grid-template-columns: 1fr; }
+  .foot-grid { grid-template-columns: 1fr; }
+  .logo { font-size: 1.2rem; }
+  .pyramid div { grid-template-columns: 1fr; gap: 0.2rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  html { scroll-behavior: auto; }
+}
+</style>
+</head>
+<body>
+
+<div class="announce"><div class="wrap">Livraison offerte dès 120 € · Deux échantillons offerts avec chaque commande</div></div>
+
+<header class="nav">
+  <div class="wrap">
+    <nav aria-label="Navigation principale">
+      <ul>
+        <li><a href="#collection">Collection</a></li>
+        <li><a href="#nuit-doree">Signature</a></li>
+        <li><a href="#maison">La Maison</a></li>
+      </ul>
+    </nav>
+    <a class="logo" href="#top">Aurelle<small>Paris · Grasse</small></a>
+    <div class="nav-right">
+      <button class="cart-btn" id="open-cart" aria-label="Ouvrir le panier">Panier <span class="cart-count" id="cart-count">0</span></button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero" style="padding-block:0">
+    <div class="wrap">
+      <div class="hero-copy">
+        <span class="eyebrow">Nouvelle création · Automne 2026</span>
+        <h1>L'or se porte <em>sur la peau.</em></h1>
+        <p class="lead">Nuit Dorée, notre nouvel extrait de parfum. Ambre, safran et oud fumé, composés à Grasse et assemblés à la main en séries numérotées.</p>
+        <div class="hero-cta">
+          <a class="btn" href="#nuit-doree">Découvrir Nuit Dorée</a>
+          <a class="btn ghost" href="#collection">Voir la collection</a>
+        </div>
+        <div class="hero-meta">
+          <div><strong>24 %</strong><span>Concentration</span></div>
+          <div><strong>12 h</strong><span>Tenue sur peau</span></div>
+          <div><strong>N° 0427</strong><span>Série limitée</span></div>
+        </div>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <div class="ring"></div>
+        <div class="ring r2"></div>
+        <div data-bottle="amber" data-big="1"></div>
+        <div class="hero-tag"><b>Extrait de parfum</b><span>50 ml · 185 €</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="collection">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">La collection</span>
+          <h2>Six signatures, une même exigence</h2>
+          <p>Chaque parfum naît de matières premières sourcées auprès de producteurs que nous connaissons par leur nom.</p>
+        </div>
+        <div class="filters" role="group" aria-label="Filtrer par famille olfactive">
+          <button aria-pressed="true" data-filter="all">Tous</button>
+          <button aria-pressed="false" data-filter="Ambré">Ambré</button>
+          <button aria-pressed="false" data-filter="Boisé">Boisé</button>
+          <button aria-pressed="false" data-filter="Floral">Floral</button>
+        </div>
+      </div>
+      <div class="grid" id="grid"></div>
+    </div>
+  </section>
+
+  <section class="feature" id="nuit-doree">
+    <div class="wrap">
+      <div class="feature-visual">
+        <div data-bottle="amber" data-big="1"></div>
+        <div class="stamp">Assemblé<br>à la main<br>à Grasse</div>
+      </div>
+      <div class="feature-copy">
+        <span class="eyebrow">Parfum signature</span>
+        <h2>Nuit Dorée</h2>
+        <p>Une traversée de la nuit, du premier éclat de bergamote à la chaleur résineuse de l'ambre gris. Un sillage dense, enveloppant, qui se révèle par vagues au fil des heures.</p>
+        <dl class="pyramid">
+          <div><dt>Notes de tête</dt><dd>Safran, bergamote de Calabre<span>Les 15 premières minutes</span></dd></div>
+          <div><dt>Notes de cœur</dt><dd>Rose de mai, absolu de cuir<span>De 30 minutes à 4 heures</span></dd></div>
+          <div><dt>Notes de fond</dt><dd>Ambre gris, oud fumé, vanille Bourbon<span>Jusqu'à 12 heures</span></dd></div>
+        </dl>
+        <div class="sizes" role="radiogroup" aria-label="Contenance">
+          <label><input type="radio" name="size" id="size-30" value="30" data-price="125"><span><b>30 ml</b><i>125 €</i></span></label>
+          <label><input type="radio" name="size" id="size-50" value="50" data-price="185" checked><span><b>50 ml</b><i>185 €</i></span></label>
+          <label><input type="radio" name="size" id="size-100" value="100" data-price="290"><span><b>100 ml</b><i>290 €</i></span></label>
+        </div>
+        <div class="buy-row">
+          <span class="total" id="feature-price">185 €</span>
+          <button class="btn" id="feature-add">Ajouter au panier</button>
+        </div>
+        <div class="perks"><span>Gravure offerte</span><span>Coffret laqué</span><span>Retours sous 30 jours</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="maison">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">Le savoir-faire</span>
+          <h2>De la fleur au flacon</h2>
+        </div>
+      </div>
+      <div class="craft-grid">
+        <article><span class="num">1</span><h3>La récolte</h3><p>La rose de mai se cueille à l'aube, entre mai et juin, quand ses pétales sont les plus chargés en parfum. Il faut près de 300 kg de fleurs pour un kilo d'absolu.</p></article>
+        <article><span class="num">2</span><h3>La composition</h3><p>Notre parfumeur travaille chaque formule pendant 12 à 18 mois, jusqu'à 200 essais, avant de valider l'accord final.</p></article>
+        <article><span class="num">3</span><h3>La macération</h3><p>Le jus repose huit semaines en cuve à l'abri de la lumière, puis il est filtré à froid et mis en flacon à la main.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="quote">
+    <div class="wrap">
+      <blockquote>« Un parfum, c'est un souvenir que l'on n'a pas encore vécu. »</blockquote>
+      <cite class="eyebrow">Le parfumeur de la Maison</cite>
+    </div>
+  </section>
+
+  <section class="news">
+    <div class="wrap">
+      <div>
+        <h2>Le Cercle Aurelle</h2>
+        <p>Avant-premières, éditions limitées et invitations à nos ateliers de Grasse.</p>
+      </div>
+      <form id="news-form" novalidate>
+        <label for="news-email" class="sr" hidden>Adresse e-mail</label>
+        <input type="email" id="news-email" placeholder="Votre adresse e-mail" aria-label="Adresse e-mail" required>
+        <button type="submit">S'inscrire</button>
+      </form>
+      <p class="msg" id="news-msg" aria-live="polite"></p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a class="logo" href="#top">Aurelle</a>
+        <p class="about">Maison de parfum indépendante fondée à Grasse. Matières naturelles, séries limitées, flacons rechargeables.</p>
+      </div>
+      <div><h4>Boutique</h4><ul><li><a href="#collection">Parfums</a></li><li><a href="#collection">Coffrets</a></li><li><a href="#collection">Échantillons</a></li></ul></div>
+      <div><h4>La Maison</h4><ul><li><a href="#maison">Savoir-faire</a></li><li><a href="#maison">Nos matières</a></li><li><a href="#maison">Ateliers</a></li></ul></div>
+      <div><h4>Aide</h4><ul><li><a href="#top">Livraison</a></li><li><a href="#top">Retours</a></li><li><a href="#top">Contact</a></li></ul></div>
+    </div>
+    <div class="foot-bottom"><span>© 2026 Maison Aurelle · Marque fictive, maquette de démonstration</span><span>Mentions légales · CGV · Confidentialité</span></div>
+  </div>
+</footer>
+
+<div class="drawer-bg" id="drawer-bg" hidden></div>
+<aside class="drawer" id="drawer" hidden aria-label="Panier">
+  <header><h3>Votre panier</h3><button class="close" id="close-cart" aria-label="Fermer le panier">×</button></header>
+  <div class="drawer-items" id="drawer-items"></div>
+  <div class="drawer-foot">
+    <div class="sum"><span>Total</span><span id="cart-total">0 €</span></div>
+    <button class="btn" id="checkout">Passer commande</button>
+    <p class="note">Maquette : le paiement n'est pas encore relié.</p>
+  </div>
+</aside>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+const LIQUIDS = {
+  amber:  ["#f3c76b", "#a8621c"],
+  rose:   ["#f2b7a8", "#9c4a4f"],
+  smoke:  ["#c9c0ad", "#4a4337"],
+  green:  ["#d8d39a", "#6a6a2c"],
+  ink:    ["#8f8aa8", "#2b2740"],
+  white:  ["#f4ecd8", "#b9a77f"]
+};
+let uid = 0;
+function bottle(kind) {
+  const [a, b] = LIQUIDS[kind] || LIQUIDS.amber; const id = "b" + (uid++);
+  return `<svg viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <defs>
+      <linearGradient id="${id}l" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${a}"/><stop offset="1" stop-color="${b}"/></linearGradient>
+      <linearGradient id="${id}g" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity=".28"/><stop offset=".35" stop-color="#fff" stop-opacity=".04"/><stop offset="1" stop-color="#fff" stop-opacity=".16"/></linearGradient>
+      <linearGradient id="${id}c" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8a6a2e"/><stop offset=".45" stop-color="#f1d79c"/><stop offset="1" stop-color="#7a5a22"/></linearGradient>
+    </defs>
+    <rect x="62" y="8" width="76" height="58" rx="3" fill="url(#${id}c)"/>
+    <rect x="62" y="56" width="76" height="4" fill="#5c4418" opacity=".5"/>
+    <rect x="84" y="66" width="32" height="18" fill="url(#${id}c)"/>
+    <rect x="22" y="84" width="156" height="206" rx="10" fill="url(#${id}l)"/>
+    <rect x="22" y="84" width="156" height="206" rx="10" fill="url(#${id}g)"/>
+    <rect x="30" y="92" width="140" height="190" rx="6" fill="none" stroke="#fff" stroke-opacity=".18"/>
+    <rect x="52" y="168" width="96" height="56" fill="#0b0a08" opacity=".86"/>
+    <rect x="55" y="171" width="90" height="50" fill="none" stroke="#c9a35b" stroke-width=".8"/>
+    <text x="100" y="196" text-anchor="middle" font-family="Bodoni Moda, Georgia, serif" font-size="14" letter-spacing="3" fill="#e6cf9c">AURELLE</text>
+    <text x="100" y="211" text-anchor="middle" font-family="Jost, sans-serif" font-size="6" letter-spacing="2" fill="#c9a35b">PARIS · GRASSE</text>
+  </svg>`;
+}
+
+const PRODUCTS = [
+  { id: "nuit", name: "Nuit Dorée", family: "Ambré", notes: "Safran, ambre gris, oud fumé", price: 185, kind: "amber", badge: "Nouveau", glow: "rgba(243,199,107,.22)" },
+  { id: "rose", name: "Rose Obscure", family: "Floral", notes: "Rose de mai, poivre rose, patchouli", price: 165, kind: "rose", glow: "rgba(242,183,168,.18)" },
+  { id: "cendre", name: "Cendre Blanche", family: "Boisé", notes: "Encens, bois de cèdre, vétiver", price: 155, kind: "smoke", glow: "rgba(201,192,173,.16)" },
+  { id: "figue", name: "Jardin de Figues", family: "Floral", notes: "Feuille de figuier, lait de coco, iris", price: 145, kind: "green", glow: "rgba(216,211,154,.16)" },
+  { id: "minuit", name: "Minuit Velours", family: "Ambré", notes: "Prune, labdanum, fève tonka", price: 175, kind: "ink", badge: "Best-seller", glow: "rgba(143,138,168,.2)" },
+  { id: "santal", name: "Santal Lumière", family: "Boisé", notes: "Santal de Mysore, musc blanc, ambrette", price: 160, kind: "white", glow: "rgba(244,236,216,.14)" },
+  { id: "tubereuse", name: "Tubéreuse d'Or", family: "Floral", notes: "Tubéreuse, jasmin sambac, benjoin", price: 170, kind: "amber", glow: "rgba(243,199,107,.16)" },
+  { id: "cuir", name: "Cuir Nocturne", family: "Boisé", notes: "Cuir, bouleau, cardamome", price: 180, kind: "smoke", glow: "rgba(201,192,173,.14)" }
+];
+
+const euro = n => n.toLocaleString("fr-FR") + " €";
+const grid = document.getElementById("grid");
+
+function renderGrid(filter = "all") {
+  grid.innerHTML = PRODUCTS.filter(p => filter === "all" || p.family === filter).map(p => `
+    <article class="card">
+      <div class="card-img" style="--glow:${p.glow}">${p.badge ? `<span class="badge">${p.badge}</span>` : ""}${bottle(p.kind)}</div>
+      <div class="card-body">
+        <span class="family">${p.family} · Eau de parfum</span>
+        <h3>${p.name}</h3>
+        <p class="notes">${p.notes}</p>
+        <div class="card-foot">
+          <span class="price">${euro(p.price)} <small>50 ml</small></span>
+          <button class="add" data-id="${p.id}">Ajouter</button>
+        </div>
+      </div>
+    </article>`).join("");
+}
+renderGrid();
+document.querySelectorAll("[data-bottle]").forEach(el => { el.outerHTML = bottle(el.dataset.bottle); });
+
+document.querySelectorAll(".filters button").forEach(btn => btn.addEventListener("click", () => {
+  document.querySelectorAll(".filters button").forEach(b => b.setAttribute("aria-pressed", b === btn));
+  renderGrid(btn.dataset.filter);
+}));
+
+/* Panier */
+let cart = [];
+try { cart = JSON.parse(localStorage.getItem("aurelle-cart") || "[]"); } catch (e) { cart = []; }
+const save = () => { try { localStorage.setItem("aurelle-cart", JSON.stringify(cart)); } catch (e) {} };
+const countEl = document.getElementById("cart-count");
+
+function renderCart() {
+  const n = cart.reduce((s, i) => s + i.qty, 0);
+  countEl.textContent = n;
+  const items = document.getElementById("drawer-items");
+  items.innerHTML = cart.length ? cart.map((i, idx) => `
+    <div class="line-item">
+      <b>${i.name}</b><span class="lp">${euro(i.price * i.qty)}</span>
+      <span>${i.size} ml · Quantité ${i.qty}</span><button data-remove="${idx}">Retirer</button>
+    </div>`).join("") : `<p class="empty">Votre panier est vide.</p>`;
+  document.getElementById("cart-total").textContent = euro(cart.reduce((s, i) => s + i.price * i.qty, 0));
+}
+
+let toastTimer;
+function toast(msg) {
+  const t = document.getElementById("toast");
+  t.textContent = msg; t.hidden = false;
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => (t.hidden = true), 2200);
+}
+
+function addToCart(name, size, price) {
+  const found = cart.find(i => i.name === name && i.size === size);
+  found ? found.qty++ : cart.push({ name, size, price, qty: 1 });
+  save(); renderCart();
+  countEl.classList.add("bump"); setTimeout(() => countEl.classList.remove("bump"), 300);
+  toast(`${name} ${size} ml ajouté au panier`);
+}
+
+grid.addEventListener("click", e => {
+  const b = e.target.closest(".add"); if (!b) return;
+  const p = PRODUCTS.find(x => x.id === b.dataset.id);
+  addToCart(p.name, 50, p.price);
+  b.textContent = "Ajouté"; b.classList.add("done");
+  setTimeout(() => { b.textContent = "Ajouter"; b.classList.remove("done"); }, 1400);
+});
+
+const priceEl = document.getElementById("feature-price");
+document.querySelectorAll('input[name="size"]').forEach(r => r.addEventListener("change", () => {
+  priceEl.textContent = euro(+r.dataset.price);
+}));
+document.getElementById("feature-add").addEventListener("click", () => {
+  const r = document.querySelector('input[name="size"]:checked');
+  addToCart("Nuit Dorée", +r.value, +r.dataset.price);
+});
+
+const drawer = document.getElementById("drawer"), bg = document.getElementById("drawer-bg");
+const openCart = () => { drawer.hidden = false; bg.hidden = false; document.getElementById("close-cart").focus(); };
+const closeCart = () => { drawer.hidden = true; bg.hidden = true; };
+document.getElementById("open-cart").addEventListener("click", openCart);
+document.getElementById("close-cart").addEventListener("click", closeCart);
+bg.addEventListener("click", closeCart);
+document.addEventListener("keydown", e => { if (e.key === "Escape") closeCart(); });
+document.getElementById("drawer-items").addEventListener("click", e => {
+  const b = e.target.closest("[data-remove]"); if (!b) return;
+  cart.splice(+b.dataset.remove, 1); save(); renderCart();
+});
+document.getElementById("checkout").addEventListener("click", () => {
+  toast(cart.length ? "Maquette : le paiement sera branché sur la version finale" : "Ajoutez un parfum pour commander");
+});
+
+document.getElementById("news-form").addEventListener("submit", e => {
+  e.preventDefault();
+  const v = document.getElementById("news-email").value.trim();
+  const msg = document.getElementById("news-msg");
+  msg.textContent = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)
+    ? "Merci, vous faites désormais partie du Cercle Aurelle."
+    : "Saisissez une adresse e-mail valide, par exemple nom@exemple.fr.";
+});
+
+renderCart();
+</script>
+</body>
+</html>
